@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xe.demo.mapper.sysmag.AuthRoleMenuMapper">
+    <resultMap id="BaseResultMap" type="com.xe.demo.model.po.sysmag.AuthRoleMenu">
+        <id column="id" jdbcType="TINYINT" property="id" />
+        <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+        <result column="menu_id" jdbcType="VARCHAR" property="menuId" />
+    </resultMap>
+
+    <select id="getRoleMenuList" parameterType="Integer" resultMap="BaseResultMap">
+        SELECT  id,role_id,menu_id
+        FROM  auth_role_menu
+        WHERE role_id = #{roleId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteMenu" parameterType="Integer">
+        DELETE  FROM  auth_role_menu
+        WHERE role_id = #{roleId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="saveMenu" parameterType="com.xe.demo.model.po.sysmag.AuthRoleMenu">
+
+        INSERT INTO auth_role_menu
+        (role_id,menu_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.roleId,jdbcType=INTEGER},
+            #{item.menuId,jdbcType=INTEGER}
+            )
+        </foreach>
+
+    </insert>
+
+
+</mapper>

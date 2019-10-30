@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xe.demo.mapper.sysmag.AuthMenuMapper">
+	<resultMap id="BaseResultMap" type="com.xe.demo.model.po.sysmag.AuthMenu">
+		<id column="menu_id" jdbcType="INTEGER" property="menuId" />
+		<result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
+		<result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+		<result column="icon" jdbcType="VARCHAR" property="icon"/>
+		<result column="url" jdbcType="VARCHAR" property="url"/>
+		<result column="menu_type" jdbcType="INTEGER" property="menuType"/>
+	</resultMap>
+<sql id="BaseColumn">
+	 menu_id, menu_name, parent_id, icon, url,menu_type
+</sql>
+	<select id="getMenuList" resultMap="BaseResultMap" parameterType="com.xe.demo.model.po.sysmag.AuthMenu">
+		SELECT
+		<include refid="BaseColumn" />
+		FROM auth_menu
+		WHERE
+		0=0
+		<if test="parentId != null ">
+			AND parent_id = #{parentId,jdbcType=INTEGER}
+		</if>
+		<if test="menuType != null ">
+			AND menu_type = #{menuType,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<insert id="saveMenu" parameterType="com.xe.demo.model.po.sysmag.AuthMenu">
+		INSERT INTO
+		auth_menu
+	  ( menu_name, parent_id,
+	  <if test="icon != null and icon != ''">
+		  icon,
+	  </if>
+	 <if test="url != null and url != ''">
+		 url,
+	 </if>
+	  menu_type
+	  )
+	  VALUES
+	( #{menuName,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER},
+		<if test="icon != null and icon != ''">
+			#{icon,jdbcType=INTEGER},
+		</if>
+		<if test="url != null and url != ''">
+			#{url,jdbcType=INTEGER},
+		</if>
+		#{menuType,jdbcType=VARCHAR} )
+	</insert>
+
+	<update id="updateMenu" parameterType="com.xe.demo.model.po.sysmag.AuthMenu">
+
+		UPDATE auth_menu
+		SET
+		<if test="menuName != null and  menuName != '' ">
+			menu_name = #{menuName,jdbcType=VARCHAR},
+		</if>
+		<if test="parentId != null  ">
+			parent_id = #{parentId,jdbcType=INTEGER},
+		</if>
+		<if test="icon != null and icon != ''">
+			icon = #{icon,jdbcType=VARCHAR},
+		</if>
+		<if test="url != null and url != ''">
+			url =#{url,jdbcType=VARCHAR},
+		</if>
+		<if test="menuType != null ">
+			menu_type = #{menuType}
+		</if>
+		WHERE
+			menu_id = #{menuId}
+	</update>
+
+	<select id="getMenuById" parameterType="Integer" resultMap="BaseResultMap">
+		SELECT
+		<include refid="BaseColumn" />
+		FROM  auth_menu
+		WHERE
+		menu_id = #{menuId,jdbcType=INTEGER}
+	</select>
+	
+	<delete id="deleteMenById" parameterType="Integer">
+		DELETE FROM auth_menu WHERE menu_id = #{menuId,jdbcType=INTEGER}
+	</delete>
+
+	<delete id="deleteMenByParentId" parameterType="Integer">
+		DELETE FROM auth_menu WHERE parent_id = #{parentId,jdbcType=INTEGER}
+	</delete>
+
+</mapper>
