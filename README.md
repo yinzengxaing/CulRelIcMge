@@ -1,1 +1,1 @@
-# CulRelIcMge
+springboot 模板 拥有完整springboot配置
