@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="CulRelicMge" />
         <module name="demo-boot" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="CulRelicMge" target="1.8" />
       <module name="demo-boot" target="1.8" />
     </bytecodeTargetLevel>
   </component>
